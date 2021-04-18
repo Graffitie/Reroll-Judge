@@ -6,7 +6,7 @@ from tkinter import *
 inputDice = 6
 inputCount = 1
 inputRoll = 4
-iterations = 10000
+iterationBudget = 100000
 
 # Set up tkinter GUI
 root = Tk()  # sets up the main window
@@ -34,6 +34,7 @@ def rollDice(event):
     global inputCount
     global inputRoll
     global asked
+    iterations = iterationBudget
 
     tallyYes = 0.0
     tallyNo = 0.0
@@ -42,15 +43,21 @@ def rollDice(event):
     inputDice = int(entryDice.get())
     inputCount = int(entryDiceCount.get())
     inputRoll = int(entryRolled.get())
+    iterations = int(iterationBudget/inputCount)
 
     if inputDice == 0 or inputCount == 0 or inputRoll == 0:
         tkinter.messagebox.showinfo("ERROR", "Please enter valid Dice rolls")
+
+    elif iterations < 50:
+        tkinter.messagebox.showinfo("Uh oh...", "Sorry, that's more dice than I can hold.")
 
     elif inputRoll > inputDice * inputCount:
         tkinter.messagebox.showinfo("ERROR", "You rolled higher than possible. I think you made a typo.")
 
     elif inputRoll < inputCount:
         tkinter.messagebox.showinfo("ERROR", "No one is that unlucky. I think you made a typo.")
+
+
 
     else:
         # runs a stochastic evaluation of dice rolls, i.e. rolls a shit ton of virtual dice
